@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/home/app/project_name/staticfiles
+      - media_volume:/home/app/project_name/mediafiles
+    ports:
+      - 80:80
+    depends_on:
+      - project_name
+
+  project_name:
+    build:
+      context: back
+      dockerfile: prod.Dockerfile
+    command: gunicorn project_name.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/home/app/project_name/staticfiles
+      - media_volume:/home/app/project_name/mediafiles
+    expose:
+      - 8000
+    env_file:
+      - env/.env.prod
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:12.2-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - env/.env.db.prod
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
