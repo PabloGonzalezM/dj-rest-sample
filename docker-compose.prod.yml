@@ -4,21 +4,21 @@ services:
   nginx:
     build: ./nginx
     volumes:
-      - static_volume:/home/app/bookardy/staticfiles
-      - media_volume:/home/app/bookardy/mediafiles
+      - static_volume:/home/app/alumni/staticfiles
+      - media_volume:/home/app/alumni/mediafiles
     ports:
       - 80:80
     depends_on:
-      - bookardy
+      - alumni
 
-  bookardy:
+  alumni:
     build:
       context: back
       dockerfile: prod.Dockerfile
-    command: gunicorn bookardy.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn alumni.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - static_volume:/home/app/bookardy/staticfiles
-      - media_volume:/home/app/bookardy/mediafiles
+      - static_volume:/home/app/alumni/staticfiles
+      - media_volume:/home/app/alumni/mediafiles
     expose:
       - 8000
     env_file:

@@ -18,6 +18,8 @@ services:
     image: postgres:12.2-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
     env_file:
       - env/.env.db.dev
     restart: unless-stopped
@@ -33,6 +35,8 @@ services:
     env_file:
       - env/.env.pgadmin.dev
     restart: unless-stopped
+    links:
+      - postgres:pgsql-server
 
 volumes:
   postgres_data:
