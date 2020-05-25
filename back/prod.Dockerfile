@@ -19,7 +19,7 @@ FROM python:3.8.2-alpine
 RUN mkdir -p /home/app && addgroup -S app && adduser -S app -G app
 
 ENV HOME=/home/app
-ENV APP_HOME=/home/app/project_name
+ENV APP_HOME=/home/app/bookardy
 WORKDIR $APP_HOME
 
 RUN mkdir staticfiles && mkdir mediafiles && apk update && apk add libpq
@@ -35,4 +35,4 @@ RUN chown -R app:app .
 
 USER app
 RUN ls
-ENTRYPOINT ["/home/app/project_name/entrypoint.prod.sh"]
+ENTRYPOINT ["/home/app/bookardy/entrypoint.prod.sh"]
